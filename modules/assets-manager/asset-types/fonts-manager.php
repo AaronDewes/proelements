@@ -5,10 +5,8 @@ use Elementor\Core\Admin\Menu\Admin_Menu_Manager;
 use Elementor\Utils;
 use ElementorPro\Core\Utils as Pro_Utils;
 use Elementor\Core\Common\Modules\Ajax\Module as Ajax;
-use ElementorPro\Core\Behaviors\Feature_Lock;
 use ElementorPro\License\API;
 use ElementorPro\Modules\AssetsManager\AssetTypes\AdminMenuItems\Custom_Fonts_Menu_Item;
-use ElementorPro\Modules\AssetsManager\AssetTypes\AdminMenuItems\Custom_Fonts_Promotion_Menu_Item;
 use ElementorPro\Modules\AssetsManager\Classes;
 use Elementor\Settings;
 
@@ -189,15 +187,7 @@ class Fonts_Manager {
 	 * Add Font manager link to admin menu
 	 */
 	private function register_admin_menu( Admin_Menu_Manager $admin_menu_manager ) {
-		if ( $this->can_use_custom_fonts() ) {
-			$admin_menu_manager->register( static::MENU_SLUG, new Custom_Fonts_Menu_Item() );
-		} else {
-			$admin_menu_manager->register( static::PROMOTION_MENU_SLUG, new Custom_Fonts_Promotion_Menu_Item() );
-		}
-	}
-
-	private function can_use_custom_fonts() {
-		return ( API::is_license_active() || $this->has_fonts() );
+		$admin_menu_manager->register( static::MENU_SLUG, new Custom_Fonts_Menu_Item() );
 	}
 
 	private function has_fonts() {
@@ -594,12 +584,6 @@ class Fonts_Manager {
 			'url' => admin_url( static::MENU_SLUG ),
 			'keywords' => [ 'custom', 'fonts', 'elementor' ],
 		];
-
-		if ( ! $this->can_use_custom_fonts() ) {
-			$lock = new Feature_Lock( [ 'type' => 'custom-font' ] );
-
-			$categories['settings']['items']['custom-fonts']['lock'] = $lock->get_config();
-		}
 
 		return $categories;
 	}

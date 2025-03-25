@@ -10,7 +10,6 @@ use Elementor\Utils;
 use ElementorPro\Base\Module_Base;
 use ElementorPro\License\API;
 use ElementorPro\Modules\CustomCode\AdminMenuItems\Custom_Code_Menu_Item;
-use ElementorPro\Modules\CustomCode\AdminMenuItems\Custom_Code_Promotion_Menu_Item;
 use ElementorPro\Modules\ThemeBuilder\Classes\Conditions_Manager;
 use ElementorPro\Modules\ThemeBuilder\Classes\Locations_Manager;
 use ElementorPro\Plugin;
@@ -42,10 +41,8 @@ class Module extends Module_Base {
 
 		$this->actions();
 
-		if ( $this->can_use_custom_code() ) {
-			$this->register_custom_post_type();
-			$this->register_metabox();
-		}
+		$this->register_custom_post_type();
+		$this->register_metabox();
 	}
 
 	public function get_name() {
@@ -53,15 +50,13 @@ class Module extends Module_Base {
 	}
 
 	private function actions() {
-		if ( $this->can_use_custom_code() ) {
-			add_action( 'elementor/documents/register', function ( $documents_manager ) {
-				return $this->register_documents( $documents_manager );
-			} );
+		add_action( 'elementor/documents/register', function ( $documents_manager ) {
+			return $this->register_documents( $documents_manager );
+		} );
 
-			add_action( 'elementor/theme/register_locations', function ( $location_manager ) {
-				return $this->register_location( $location_manager );
-			} );
-		}
+		add_action( 'elementor/theme/register_locations', function ( $location_manager ) {
+			return $this->register_location( $location_manager );
+		} );
 
 		add_action( 'elementor/admin/menu/register', function ( Admin_Menu_Manager $admin_menu_manager ) {
 			$this->add_admin_menu( $admin_menu_manager );
@@ -319,15 +314,7 @@ class Module extends Module_Base {
 	}
 
 	private function add_admin_menu( Admin_Menu_Manager $admin_menu_manager ) {
-		if ( $this->can_use_custom_code() ) {
-			$admin_menu_manager->register( static::MENU_SLUG, new Custom_Code_Menu_Item() );
-		} else {
-			$admin_menu_manager->register( static::PROMOTION_MENU_SLUG, new Custom_Code_Promotion_Menu_Item() );
-		}
-	}
-
-	private function can_use_custom_code() {
-		return ( API::is_license_active() && API::is_licence_has_feature( static::MODULE_NAME, API::BC_VALIDATION_CALLBACK ) || $this->has_custom_code_snippets() );
+		$admin_menu_manager->register( static::MENU_SLUG, new Custom_Code_Menu_Item() );
 	}
 
 	private function has_custom_code_snippets() {

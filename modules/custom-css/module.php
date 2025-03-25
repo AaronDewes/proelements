@@ -8,10 +8,8 @@ use Elementor\Core\Files\CSS\Post;
 use Elementor\Core\Kits\Documents\Kit;
 use Elementor\Element_Base;
 use ElementorPro\Base\Module_Base;
-use ElementorPro\Modules\CustomCss\AdminMenuItems\Settings_Custom_CSS_Pro;
 use ElementorPro\Plugin;
 use ElementorPro\License\API;
-use ElementorPro\Modules\Tiers\Module as Tiers;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly
@@ -43,19 +41,6 @@ class Module extends Module_Base {
 		}
 
 		$old_section = Plugin::elementor()->controls_manager->get_control_from_stack( $element->get_unique_name(), 'section_custom_css_pro' );
-
-		if ( ! API::is_licence_has_feature( static::LICENSE_FEATURE_NAME, API::BC_VALIDATION_CALLBACK ) ) {
-			$template = Tiers::get_promotion_template( [
-				'title' => esc_html__( 'Meet Our Custom CSS', 'elementor-pro' ),
-				'messages' => [
-					esc_html__( 'Apply CSS to any widget and elevate any element with Custom CSS.', 'elementor-pro' ),
-				],
-				'link' => 'https://go.elementor.com/go-pro-advanced-custom-css/',
-			] );
-
-			$this->replace_controls_with_upgrade_promotion( $element, $old_section['tab'], $template );
-			return;
-		}
 
 		$this->replace_go_pro_custom_css_controls( $element );
 	}
@@ -149,34 +134,5 @@ class Module extends Module_Base {
 		add_action( 'elementor/element/after_section_end', [ $this, 'register_controls' ], 10, 2 );
 		add_action( 'elementor/element/parse_css', [ $this, 'add_post_css' ], 10, 2 );
 		add_action( 'elementor/css-file/post/parse', [ $this, 'add_page_settings_css' ] );
-
-		// Check license for site settings tabs
-		if ( ! API::is_licence_has_feature( static::LICENSE_FEATURE_NAME_GLOBAL, API::BC_VALIDATION_CALLBACK ) ) {
-			add_action( 'elementor/kit/register_tabs', function ( Kit $kit ) {
-				$kit->register_tab( 'settings-custom-css', Settings_Custom_CSS_Pro::class );
-			}, 100 );
-		}
-	}
-
-	public function replace_controls_with_upgrade_promotion( Controls_Stack $controls_stack, $tab, $template ) {
-		Plugin::elementor()->controls_manager->remove_control_from_stack( $controls_stack->get_unique_name(), [ 'section_custom_css_pro', 'custom_css_pro' ] );
-
-		$controls_stack->start_controls_section(
-			'section_custom_css_promotion',
-			[
-				'label' => esc_html__( 'Custom CSS', 'elementor-pro' ),
-				'tab' => $tab,
-			]
-		);
-
-		$controls_stack->add_control(
-			'custom_css_promotion',
-			[
-				'type' => Controls_Manager::RAW_HTML,
-				'raw' => $template,
-			]
-		);
-
-		$controls_stack->end_controls_section();
 	}
 }

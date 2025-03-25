@@ -17,7 +17,7 @@ class Feature_Lock implements Temp_Lock_Behavior {
 	}
 
 	public function is_locked() {
-		return ! API::is_license_active();
+		return false;
 	}
 
 	public function get_config() {

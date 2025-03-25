@@ -2,10 +2,8 @@
 namespace ElementorPro\Modules\AssetsManager\AssetTypes;
 
 use Elementor\Core\Admin\Menu\Admin_Menu_Manager;
-use ElementorPro\Core\Behaviors\Feature_Lock;
 use ElementorPro\License\API;
 use ElementorPro\Modules\AssetsManager\AssetTypes\AdminMenuItems\Custom_Icons_Menu_Item;
-use ElementorPro\Modules\AssetsManager\AssetTypes\AdminMenuItems\Custom_Icons_Promotion_Menu_Item;
 use ElementorPro\Modules\AssetsManager\Classes;
 use Elementor\Settings;
 
@@ -119,15 +117,7 @@ class Icons_Manager {
 	 * Add Font manager link to admin menu
 	 */
 	private function register_admin_menu( Admin_Menu_Manager $admin_menu_manager ) {
-		if ( $this->can_use_custom_icons() ) {
-			$admin_menu_manager->register( static::MENU_SLUG, new Custom_Icons_Menu_Item() );
-		} else {
-			$admin_menu_manager->register( static::PROMOTION_MENU_SLUG, new Custom_Icons_Promotion_Menu_Item() );
-		}
-	}
-
-	private function can_use_custom_icons() {
-		return ( API::is_license_active() || $this->has_icons() );
+		$admin_menu_manager->register( static::MENU_SLUG, new Custom_Icons_Menu_Item() );
 	}
 
 	private function has_icons() {
@@ -183,12 +173,6 @@ class Icons_Manager {
 			'url' => admin_url( static::MENU_SLUG ),
 			'keywords' => [ 'custom', 'icons', 'elementor' ],
 		];
-
-		if ( ! $this->can_use_custom_icons() ) {
-			$lock = new Feature_Lock( [ 'type' => 'custom-icon' ] );
-
-			$categories['settings']['items']['custom-icons']['lock'] = $lock->get_config();
-		}
 
 		return $categories;
 	}

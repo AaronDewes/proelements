@@ -167,12 +167,6 @@ class Module extends App {
 	}
 
 	private function on_elementor_pro_init() {
-		$has_license = API::is_license_active() && API::is_licence_has_feature( static::LICENSE_FEATURE_NAME );
-
-		if ( ! $has_license ) {
-			return;
-		}
-
 		// Things that should be happened if the feature is active (not depends on the current user)
 		$this->define_tables();
 

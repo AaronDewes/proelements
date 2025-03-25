@@ -13,7 +13,6 @@ use ElementorPro\Core\Behaviors\Feature_Lock;
 use ElementorPro\Core\Utils;
 use ElementorPro\License\API;
 use ElementorPro\Modules\Popup\AdminMenuItems\Popups_Menu_Item;
-use ElementorPro\Modules\Popup\AdminMenuItems\Popups_Promotion_Menu_Item;
 use ElementorPro\Modules\ThemeBuilder\Classes\Locations_Manager;
 use ElementorPro\Plugin;
 
@@ -52,11 +51,7 @@ class Module extends Module_Base {
 			} );
 		} else {
 			add_action( 'elementor/admin/menu/register', function( Admin_Menu_Manager $admin_menu_manager ) {
-				if ( $this->can_use_popups() ) {
-					$admin_menu_manager->register( $this->get_admin_url( true ), new Popups_Menu_Item() );
-				} else {
-					$admin_menu_manager->register( static::PROMOTION_MENU_SLUG, new Popups_Promotion_Menu_Item() );
-				}
+				$admin_menu_manager->register( $this->get_admin_url( true ), new Popups_Menu_Item() );
 			} );
 
 			// TODO: BC - Remove in the future.

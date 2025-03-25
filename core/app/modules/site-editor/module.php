@@ -8,7 +8,6 @@ use Elementor\Core\Base\Module as BaseModule;
 use Elementor\Core\Common\Modules\Ajax\Module as Ajax;
 use Elementor\TemplateLibrary\Source_Local;
 use ElementorPro\Core\App\Modules\SiteEditor\Data\Controller;
-use ElementorPro\Core\Behaviors\Feature_Lock;
 use ElementorPro\Modules\ThemeBuilder\AdminMenuItems\Theme_Builder_Menu_Item;
 use ElementorPro\Modules\ThemeBuilder\Module as Theme_Builder_Table_View;
 use ElementorPro\Modules\ThemeBuilder\Module as ThemeBuilderModule;
@@ -24,11 +23,6 @@ if ( ! defined( 'ABSPATH' ) ) {
  * Responsible for initializing Elementor Pro App functionality
  */
 class Module extends BaseModule {
-	/**
-	 * @var Feature_Lock
-	 */
-	private $lock;
-
 	/**
 	 * Get name.
 	 *
@@ -101,10 +95,6 @@ class Module extends BaseModule {
 				'utm_medium' => 'wp-dash',
 			],
 		];
-
-		if ( $this->lock->is_locked() ) {
-			$settings['lock'] = $this->lock->get_config();
-		}
 
 		return $settings;
 	}
@@ -189,8 +179,6 @@ class Module extends BaseModule {
 	 * @access public
 	 */
 	public function __construct() {
-		$this->lock = new Feature_Lock( [ 'type' => 'theme-builder' ] );
-
 		Plugin::elementor()->data_manager->register_controller( Controller::class );
 
 		add_action( 'elementor/ajax/register_actions', [ $this, 'register_ajax_actions' ], 11 /* Override core actions */ );

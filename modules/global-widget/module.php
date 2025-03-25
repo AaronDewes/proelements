@@ -8,7 +8,6 @@ use ElementorPro\Base\Module_Base;
 use ElementorPro\Modules\GlobalWidget\Documents\Widget;
 use ElementorPro\Plugin;
 use ElementorPro\License\API;
-use ElementorPro\Modules\Tiers\Module as Tiers;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly
@@ -203,20 +202,6 @@ class Module extends Module_Base {
 	}
 
 	public function on_elementor_editor_init() {
-		if ( ! API::is_licence_has_feature( static::LICENSE_FEATURE_NAME, API::BC_VALIDATION_CALLBACK ) ) {
-			$promotion = Tiers::get_promotion_template( [
-				'title' => esc_html__( 'Meet Our Global Widget', 'elementor-pro' ),
-				'messages' => [
-					esc_html__( 'Create Global Widgets. Modify the content, style and setting of any widget and reuse it across your website to accelerate your workflow and stay consistent.', 'elementor-pro' ),
-				],
-				'link' => 'https://go.elementor.com/go-pro-advanced-global-widget/',
-			], true );
-
-			Plugin::elementor()->common->add_template( $promotion, 'text' );
-
-			return;
-		}
-
 		Plugin::elementor()->common->add_template( __DIR__ . '/views/panel-template.php' );
 	}
 

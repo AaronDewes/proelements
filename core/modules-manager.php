@@ -72,7 +72,6 @@ final class Modules_Manager {
 			'mega-menu',
 			'nested-carousel',
 			'loop-filter',
-			'tiers',
 			'link-in-bio',
 			'floating-buttons',
 			'search',

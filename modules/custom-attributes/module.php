@@ -7,7 +7,6 @@ use Elementor\Element_Base;
 use Elementor\Utils;
 use ElementorPro\Base\Module_Base;
 use ElementorPro\License\API;
-use ElementorPro\Modules\Tiers\Module as Tiers;
 use ElementorPro\Plugin;
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -116,11 +115,6 @@ class Module extends Module_Base {
 			return;
 		}
 
-		if ( ! API::is_licence_has_feature( self::LICENSE_FEATURE_NAME, API::BC_VALIDATION_CALLBACK ) ) {
-			$this->replace_controls_with_upgrade_promotion( $element );
-			return;
-		}
-
 		$this->replace_go_pro_custom_attributes_controls( $element );
 	}
 
@@ -149,37 +143,5 @@ class Module extends Module_Base {
 		if ( API::is_licence_has_feature( static::LICENSE_FEATURE_NAME, API::BC_VALIDATION_CALLBACK ) ) {
 			add_action( 'elementor/element/after_add_attributes', [ $this, 'render_attributes' ] );
 		}
-	}
-
-	private function replace_controls_with_upgrade_promotion( Element_Base $element ) {
-		$old_section = Plugin::elementor()->controls_manager->get_control_from_stack(
-			$element->get_unique_name(),
-			'section_custom_attributes_pro'
-		);
-		Plugin::elementor()->controls_manager->remove_control_from_stack( $element->get_unique_name(), [ 'section_custom_attributes_pro', 'section_custom_attributes_pro' ] );
-
-		$element->start_controls_section(
-			'section_custom_attributes_promotion',
-			[
-				'label' => esc_html__( 'Attributes', 'elementor-pro' ),
-				'tab' => $old_section['tab'],
-			]
-		);
-
-		$element->add_control(
-			'custom_attributes_promotion',
-			[
-				'type' => Controls_Manager::RAW_HTML,
-				'raw' => Tiers::get_promotion_template( [
-					'title' => esc_html__( 'Meet Our Attributes', 'elementor-pro' ),
-					'messages' => [
-						esc_html__( 'Add custom HTML attributes to any element.', 'elementor-pro' ),
-					],
-					'link' => 'https://go.elementor.com/go-pro-advanced-attributes/',
-				] ),
-			]
-		);
-
-		$element->end_controls_section();
 	}
 }

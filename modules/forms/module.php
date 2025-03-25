@@ -18,7 +18,6 @@ use ElementorPro\Modules\Forms\Submissions\Component as Form_Submissions_Compone
 use ElementorPro\Modules\Forms\Controls\Fields_Repeater;
 use ElementorPro\Plugin;
 use ElementorPro\License\API;
-use ElementorPro\Modules\Forms\Submissions\AdminMenuItems\Submissions_Promotion_Menu_Item;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
@@ -276,13 +275,7 @@ class Module extends Module_Base {
 			$this->add_component( 'akismet', new Classes\Akismet() );
 		}
 
-		if ( API::is_licence_has_feature( Form_Submissions_Component::NAME, API::BC_VALIDATION_CALLBACK ) ) {
-			$this->register_submissions_component();
-		} else {
-			add_action( 'elementor/admin/menu/register', function( $admin_menu ) {
-				$admin_menu->register( Form_Submissions_Component::PAGE_ID, new Submissions_Promotion_Menu_Item() );
-			}, 9 /* After "Settings" */ );
-		}
+		$this->register_submissions_component();
 
 		// Initialize registrars.
 		$this->actions_registrar = new Form_Actions_Registrar();

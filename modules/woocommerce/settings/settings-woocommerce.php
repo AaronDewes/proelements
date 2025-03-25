@@ -13,7 +13,6 @@ use Elementor\Group_Control_Box_Shadow;
 use Elementor\Group_Control_Background;
 use ElementorPro\Modules\Woocommerce\Module as Woocommerce;
 use ElementorPro\License\API;
-use ElementorPro\Modules\Tiers\Module as Tiers;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly
@@ -51,11 +50,7 @@ class Settings_Woocommerce extends Tab_Base {
 			]
 		);
 
-		if ( API::is_licence_has_feature( Woocommerce::SITE_SETTINGS_PAGES_LICENSE_FEATURE_NAME, API::BC_VALIDATION_CALLBACK ) ) {
-			$this->register_woocommerce_pages_controls();
-		} else {
-			$this->register_woocommerce_pages_promotion();
-		}
+		$this->register_woocommerce_pages_controls();
 
 		$this->end_controls_section();
 
@@ -67,11 +62,7 @@ class Settings_Woocommerce extends Tab_Base {
 			]
 		);
 
-		if ( API::is_licence_has_feature( Woocommerce::SITE_SETTINGS_NOTICES_LICENSE_FEATURE_NAME, API::BC_VALIDATION_CALLBACK ) ) {
-			$this->register_woocommerce_notices_controls();
-		} else {
-			$this->register_woocommerce_notices_promotion();
-		}
+		$this->register_woocommerce_notices_controls();
 
 		$this->end_controls_section();
 
@@ -868,31 +859,5 @@ class Settings_Woocommerce extends Tab_Base {
 			],
 			'link' => 'https://go.elementor.com/go-pro-advanced-site-settings-woocommerce-pages/',
 		];
-	}
-
-	/**
-	 * @return void
-	 */
-	private function register_woocommerce_pages_promotion(): void {
-		$this->add_control(
-			'woocommerce_pages_promotion',
-			[
-				'type' => Controls_Manager::RAW_HTML,
-				'raw' => Tiers::get_promotion_template( $this->get_pages_promotion_data() ),
-			]
-		);
-	}
-
-	/**
-	 * @return void
-	 */
-	private function register_woocommerce_notices_promotion(): void {
-		$this->add_control(
-			'woocommerce_notices_promotion',
-			[
-				'type' => Controls_Manager::RAW_HTML,
-				'raw' => Tiers::get_promotion_template( $this->get_notices_promotion_data() ),
-			]
-		);
 	}
 }

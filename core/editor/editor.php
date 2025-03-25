@@ -4,7 +4,6 @@ namespace ElementorPro\Core\Editor;
 use Elementor\Core\Base\App;
 use Elementor\Core\Utils\Assets_Config_Provider;
 use Elementor\Core\Utils\Assets_Translation_Loader;
-use ElementorPro\License\API as License_API;
 use ElementorPro\Plugin;
 use ElementorPro\Modules\DisplayConditions\Module as Display_Conditions_Module;
 

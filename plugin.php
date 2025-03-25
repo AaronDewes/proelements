@@ -64,11 +64,6 @@ class Plugin {
 	public $app;
 
 	/**
-	 * @var License\Admin
-	 */
-	public $license_admin;
-
-	/**
 	 * @var \ElementorPro\Core\Integrations\Integrations_Manager
 	 */
 	public $integrations;
@@ -521,8 +516,6 @@ class Plugin {
 
 		$this->app = new App();
 
-		$this->license_admin = new License\Admin();
-
 		$this->php_api = new PHP_Api();
 
 		if ( is_user_logged_in() ) {
@@ -547,8 +540,6 @@ class Plugin {
 
 			if ( is_admin() ) {
 				$this->admin = new Admin();
-
-				$this->license_admin->register_actions();
 
 				require_once __DIR__ . '/updater/updater.php';
 				$config = array(

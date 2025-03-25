@@ -2,8 +2,6 @@
 
 namespace ElementorPro\Modules\DynamicTags\Tags\Base;
 
-use ElementorPro\License\API as License_API;
-
 if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly
 }
@@ -11,7 +9,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 trait Tag_Trait {
 
 	public function is_editable() {
-		return License_API::is_license_active();
+		return true;
 	}
 
 	protected function render_taxonomy_content_by_key( string $key = 'name' ): void {
