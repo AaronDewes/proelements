@@ -4,7 +4,6 @@ namespace ElementorPro\Core\Editor;
 use Elementor\Core\Base\App;
 use Elementor\Core\Utils\Assets_Config_Provider;
 use Elementor\Core\Utils\Assets_Translation_Loader;
-use ElementorPro\License\Admin as License_Admin;
 use ElementorPro\License\API as License_API;
 use ElementorPro\Plugin;
 use ElementorPro\Modules\DisplayConditions\Module as Display_Conditions_Module;
@@ -58,11 +57,7 @@ class Editor extends App {
 
 	public function get_init_settings() {
 		$settings = [
-			'isActive' => License_API::is_license_active(),
-			'urls' => [
-				'modules' => ELEMENTOR_PRO_MODULES_URL,
-				'connect' => License_Admin::get_url(),
-			],
+			'isActive' => true,
 		];
 
 		/**
@@ -145,27 +140,6 @@ class Editor extends App {
 	}
 
 	public function localize_settings( array $settings ) {
-
-		if (!defined('IS_PRO_ELEMENTS')) {
-			$settings['elementPromotionURL'] = Plugin::instance()->license_admin->get_connect_url( [
-				'utm_source'   => '%s', // Will be replaced in the frontend to the widget name
-				'utm_medium'   => 'wp-dash',
-				'utm_campaign' => 'connect-and-activate-license',
-				'utm_content'  => 'editor-widget-promotion',
-			] );
-
-			$settings['dynamicPromotionURL'] = Plugin::instance()->license_admin->get_connect_url( [
-				'utm_source'   => '%s', // Will be replaced in the frontend to the control name
-				'utm_medium'   => 'wp-dash',
-				'utm_campaign' => 'connect-and-activate-license',
-				'utm_content'  => 'editor-dynamic-promotion',
-			] );
-
-			if ( ! isset( $settings['promotionWidgets'] ) ) {
-				$settings['promotionWidgets'] = License_API::get_promotion_widgets();
-			}
-		}
-
 		if ( Display_Conditions_Module::can_use_display_conditions() ) {
 			$settings['displayConditions'] = Display_Conditions_Module::instance()
 				->get_conditions_manager()
@@ -176,11 +150,6 @@ class Editor extends App {
 	}
 
 	public function on_elementor_init() {
-		Plugin::elementor()->editor->notice_bar = new Notice_Bar();
-
-		if ( isset( Plugin::elementor()->editor->promotion ) ) {
-			Plugin::elementor()->editor->promotion = new Promotion();
-		}
 	}
 
 	public function on_elementor_editor_init() {

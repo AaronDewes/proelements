@@ -299,13 +299,6 @@ class Admin extends App {
 
 		add_action( 'elementor/admin/after_create_settings/' . Tools::PAGE_ID, [ $this, 'register_admin_tools_fields' ], 50 );
 
-		add_filter( 'plugin_action_links_' . ELEMENTOR_PLUGIN_BASE, function ( $links ) {
-			return Action_Links::get_links( $links );
-		}, 50 );
-		add_filter( 'plugin_action_links_' . ELEMENTOR_PRO_PLUGIN_BASE, function ( $links ) {
-			return Action_Links::get_pro_links( $links );
-		}, 50 );
-
 		add_filter( 'plugin_row_meta', [ $this, 'plugin_row_meta' ], 10, 2 );
 
 		add_filter( 'elementor/finder/categories', [ $this, 'add_finder_items' ] );
