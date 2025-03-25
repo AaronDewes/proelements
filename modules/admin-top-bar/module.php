@@ -4,7 +4,6 @@ namespace ElementorPro\Modules\AdminTopBar;
 
 use ElementorPro\Plugin;
 use ElementorPro\Base\Module_Base;
-use ElementorPro\Core\Connect\Apps\Activate;
 use ElementorPro\License\API;
 
 if ( ! defined( 'ABSPATH' ) ) {
