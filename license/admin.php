@@ -96,7 +96,7 @@ class Admin {
 		return static::$updater;
 	}
 
-	public static function get_license_key() {
+	/*public static function get_license_key() {
 		return trim( get_option( self::LICENSE_KEY_OPTION_NAME ) );
 	}
 
@@ -134,20 +134,20 @@ class Admin {
 		API::set_license_data( $data );
 
 		$this->safe_redirect( Pro_Utils::_unstable_get_super_global_value( $_POST, '_wp_http_referer' ) );
-	}
+	}*/
 
 	protected function safe_redirect( $url ) {
 		wp_safe_redirect( $url );
 		die;
 	}
 
-	public function action_deactivate_license() {
+	/*public function action_deactivate_license() {
 		check_admin_referer( 'elementor-pro-license' );
 
 		$this->deactivate();
 
 		$this->safe_redirect( Pro_Utils::_unstable_get_super_global_value( $_POST, '_wp_http_referer' ) );
-	}
+	}*/
 
 	public function register_page() {
 		$menu_text = esc_html__( 'License', 'elementor-pro' );
@@ -736,17 +736,17 @@ class Admin {
 	public function register_actions() {
 		add_action( 'admin_menu', [ $this, 'register_page' ], 800 );
 		add_action( 'admin_init', [ $this, 'handle_tracker_actions' ], 9 );
-		add_action( 'admin_post_elementor_pro_activate_license', [ $this, 'action_activate_license' ] );
-		add_action( 'admin_post_elementor_pro_deactivate_license', [ $this, 'action_deactivate_license' ] );
+		//add_action( 'admin_post_elementor_pro_activate_license', [ $this, 'action_activate_license' ] );
+		//add_action( 'admin_post_elementor_pro_deactivate_license', [ $this, 'action_deactivate_license' ] );
 
-		add_action( 'admin_notices', [ $this, 'admin_license_details' ], 20 );
+		/*add_action( 'admin_notices', [ $this, 'admin_license_details' ], 20 );
 
 		add_filter( 'elementor/core/admin/notices', function( $notices ) {
 			$notices[] = new Trial_Period_Notice();
 			$notices[] = new Trial_Expired_Notice();
 
 			return $notices;
-		} );
+		} );*/
 
 		add_action( 'deactivate_plugin', [ $this, 'on_deactivate_plugin' ] );
 
