@@ -30,20 +30,15 @@ class Module extends Module_Base {
 	public function __construct() {
 		parent::__construct();
 
-		if ( $this->can_use_popups() ) {
-			add_action( 'elementor/documents/register', [ $this, 'register_documents' ] );
-			add_action( 'elementor/theme/register_locations', [ $this, 'register_location' ] );
-			add_action( 'elementor/dynamic_tags/register', [ $this, 'register_tag' ] );
-			add_action( 'elementor/ajax/register_actions', [ $this, 'register_ajax_actions' ] );
+		add_action( 'elementor/documents/register', [ $this, 'register_documents' ] );
+		add_action( 'elementor/theme/register_locations', [ $this, 'register_location' ] );
+		add_action( 'elementor/dynamic_tags/register', [ $this, 'register_tag' ] );
+		add_action( 'elementor/ajax/register_actions', [ $this, 'register_ajax_actions' ] );
 
-			add_action( 'wp_footer', [ $this, 'print_popups' ] );
-			add_action( 'elementor_pro/init', [ $this, 'add_form_action' ] );
+		add_action( 'wp_footer', [ $this, 'print_popups' ] );
+		add_action( 'elementor_pro/init', [ $this, 'add_form_action' ] );
 
-			add_action( 'elementor/frontend/before_register_styles', [ $this, 'register_styles' ] );
-		} else {
-			add_action( 'load-post.php', [ $this, 'disable_editing' ] );
-			add_action( 'admin_init', [ $this, 'maybe_redirect_to_promotion_page' ] );
-		}
+		add_action( 'elementor/frontend/before_register_styles', [ $this, 'register_styles' ] );
 
 		if ( Plugin::elementor()->experiments->is_feature_active( 'admin_menu_rearrangement' ) ) {
 			add_action( 'elementor/admin/menu_registered/elementor', function( MainMenu $menu ) {
@@ -209,12 +204,6 @@ class Module extends Module_Base {
 			'keywords' => [ 'template', 'popup', 'library' ],
 		];
 
-		if ( ! $this->can_use_popups() ) {
-			$lock = new Feature_Lock( [ 'type' => 'popup' ] );
-
-			$categories['general']['items']['popups']['lock'] = $lock->get_config();
-		}
-
 		return $categories;
 	}
 
@@ -231,10 +220,6 @@ class Module extends Module_Base {
 			],
 			$base_url
 		);
-	}
-
-	private function can_use_popups() {
-		return ( API::is_license_active() && API::is_licence_has_feature( static::DOCUMENT_TYPE, API::BC_VALIDATION_CALLBACK ) ) || $this->has_popups();
 	}
 
 	private function has_popups() {
