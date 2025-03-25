@@ -31,7 +31,6 @@ final class Modules_Manager {
 			'compatibility-tag',
 			'admin-top-bar',
 			'notes',
-			'announcements',
 			'display-conditions',
 			'element-manager',
 			'checklist',

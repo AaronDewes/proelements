@@ -9,7 +9,6 @@ use Elementor\Core\Documents_Manager;
 use Elementor\Core\DynamicTags\Manager as DynamicTagsManager;
 use Elementor\TemplateLibrary\Source_Local;
 use ElementorPro\Base\Module_Base;
-use ElementorPro\Core\Behaviors\Feature_Lock;
 use ElementorPro\Core\Utils;
 use ElementorPro\License\API;
 use ElementorPro\Modules\Popup\AdminMenuItems\Popups_Menu_Item;

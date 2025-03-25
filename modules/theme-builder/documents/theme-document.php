@@ -6,7 +6,6 @@ use Elementor\App\Modules\ImportExport\Module as Import_Export_Module;
 use Elementor\Modules\Library\Documents\Library_Document;
 use Elementor\TemplateLibrary\Source_Local;
 use Elementor\Utils;
-use ElementorPro\Core\Behaviors\Feature_Lock;
 use ElementorPro\Modules\QueryControl\Module as QueryModule;
 use ElementorPro\Modules\ThemeBuilder\Module;
 use ElementorPro\Plugin;
@@ -108,9 +107,7 @@ abstract class Theme_Document extends Library_Document {
 	}
 
 	public static function get_lock_behavior_v2() {
-		return new Feature_Lock( [
-			'type' => static::get_type(),
-		] );
+		return null;
 	}
 
 	public function get_location_label() {
